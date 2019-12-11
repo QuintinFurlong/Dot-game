@@ -17,6 +17,8 @@ public:
 	bool checkCollision(sf::Vector2f t_pos);
 	void checkBoundaries();
 	sf::Vector2f getPos();
+	void setColour(sf::Color t_colour);
+	sf::Color getColour();
 private:
 	bool isLocalPlayer, isChaser, right, left, up, down;
 	sf::CircleShape body;

@@ -1,5 +1,25 @@
-﻿  Dot.cpp
-  Game.cpp
-  main.cpp
-  Generating Code...
-  Dotgame.vcxproj -> C:\Users\Quintin Furlong\source\repos\Dotgame\Debug\Dotgame.exe
+﻿  Game.cpp
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:         with
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:         [
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:             _Ty=int
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:         ]
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:         and
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:         [
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:             T=float
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,39): warning C4244:         ]
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:         with
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:         [
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:             _Ty=int
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:         ]
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:         and
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:         [
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:             T=float
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(221,28): warning C4244:         ]
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(261,15): warning C4244: 'return': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(261,15): warning C4244:         with
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(261,15): warning C4244:         [
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(261,15): warning C4244:             _Ty=int
+C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Dotgame\Game.cpp(261,15): warning C4244:         ]
+  Dotgame.vcxproj -> C:\Users\Quintin Furlong\Documents\GitHub\Dot-game\Dotgame\Debug\Dotgame.exe

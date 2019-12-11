@@ -19,11 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClientStuff\Client.cpp" />
+    <ClCompile Include="ClientStuff\SendGetMethods.cpp" />
+    <ClCompile Include="ClientStuff\Source.cpp" />
     <ClCompile Include="Dot.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientStuff\Client.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="Game.h" />
   </ItemGroup>

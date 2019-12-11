@@ -3,6 +3,20 @@
 #define GAME_HPP
 #include <SFML/Graphics.hpp>
 #include "Dot.h"
+#include "ClientStuff/Client.h"
+#include <string>
+#include <iostream>
+#include <vector>
+#include <sstream>
+
+using namespace std;
+
+struct not_digit {
+	bool operator()(const char c)
+	{
+		return c != ' ' && !isdigit(c);
+	}
+};
 
 class Game
 {
@@ -22,15 +36,20 @@ private:
 	void render();
 	
 	void setupFontAndText();
+	sf::Vector2f getVector(std::string t_pos);
+	int getIndex(std::string t_index);
+	float getTime(std::string t_time);
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message
 	sf::Text m_welcomeMessage; // text used for message on screen
 
-	Dot dot;
-
-	bool m_exitGame; // control exiting game
-
+	Dot dot, dot2;
+	Client myClient;
+	std::string playerPos;
+	bool m_exitGame, endGame; // control exiting game
+	int index;
+	float timer;
 };
 
 #endif // !GAME_HPP

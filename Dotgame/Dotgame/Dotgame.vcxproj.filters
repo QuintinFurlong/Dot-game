@@ -19,6 +19,9 @@
     <Filter Include="Resource Files\IMAGES">
       <UniqueIdentifier>{1d793ccc-0d22-4eea-8d0e-c5b5a5270a40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ClientStuff">
+      <UniqueIdentifier>{5740380e-381a-4444-ac96-1cf1c3adddc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,6 +33,15 @@
     <ClCompile Include="Dot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClientStuff\Client.cpp">
+      <Filter>ClientStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientStuff\SendGetMethods.cpp">
+      <Filter>ClientStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientStuff\Source.cpp">
+      <Filter>ClientStuff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -37,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="Dot.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStuff\Client.h">
+      <Filter>ClientStuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

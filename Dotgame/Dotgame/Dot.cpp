@@ -65,7 +65,7 @@ void Dot::update()
 	{
 		velocity.y--;
 	}
-	else if (down)
+	if (down)
 	{
 		velocity.y++;
 	}
@@ -73,7 +73,7 @@ void Dot::update()
 	{
 		velocity.x--;
 	}
-	else if (right)
+	if (right)
 	{
 		velocity.x++;
 	}
@@ -125,4 +125,14 @@ void Dot::checkBoundaries()
 sf::Vector2f Dot::getPos()
 {
 	return body.getPosition();
+}
+
+void Dot::setColour(sf::Color t_colour)
+{
+	body.setFillColor(t_colour);
+}
+
+sf::Color Dot::getColour()
+{
+	return body.getFillColor();
 }
