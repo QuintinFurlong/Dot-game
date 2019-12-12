@@ -42,7 +42,7 @@ private:
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message
-	sf::Text m_welcomeMessage; // text used for message on screen
+	sf::Text cornerMes; // text used for message on screen
 
 	Dot dot, dot2;
 	Client myClient;

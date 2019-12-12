@@ -1,39 +1,70 @@
 #include "Client.h"
+#include <Ws2tcpip.h> //for inet_pton
+#pragma comment(lib,"ws2_32.lib") //Required for WinSock
+#include <iostream> //for std::cout
 
-bool Client::ProcessPacket(Packet _packettype)
+bool Client::ProcessPacketType(PacketType packetType)
 {
-	switch (_packettype)
+	switch (packetType)
 	{
-	case P_ChatMessage: //If packet is a chat message packet
+	case PacketType::ChatMessage: //If PacketType is a chat message PacketType
 	{
 		std::string Message; //string to store our message we received
 		if (!GetString(Message)) //Get the chat message and store it in variable: Message
 			return false; //If we do not properly get the chat message, return false
 		newMessage = Message;
-		isMessage = true;
+		isMessage = true; 
 		break;
 	}
-	default: //If packet type is not accounted for
-		std::cout << "Unrecognized packet: " << _packettype << std::endl; //Display that packet was not found
+	case PacketType::FileTransferByteBuffer:
+	{
+		std::int32_t buffersize; //buffer to hold size of buffer to write to file
+		if (!Getint32_t(buffersize)) //get size of buffer as integer
+			return false;
+		if (buffersize > FileTransferData::m_bufferSize) //If invalid buffer size (too large)
+			return false;
+		if (!recvall(m_file.m_buffer, buffersize)) //get buffer and store it in file.buffer
+			return false;
+		m_file.m_outfileStream.write(m_file.m_buffer, buffersize); //write buffer from file.buffer to our outfilestream
+		m_file.m_bytesWritten += buffersize; //increment byteswritten
+		std::cout << "Received byte buffer for file transfer of size: " << buffersize << std::endl;
+		m_pm.Append(std::make_shared<Packet>(Packet(PacketType::FileTransferRequestNextBuffer)));
+		break;
+	}
+	case PacketType::FileTransfer_EndOfFile:
+	{
+		std::cout << "File transfer completed. File received.\n";
+		std::cout << "File Name: " << m_file.m_fileName << "\n";
+		std::cout << "File Size(bytes): " << m_file.m_bytesWritten << std::endl;
+		m_file.m_transferInProgress = false;
+		m_file.m_bytesWritten = 0;
+		m_file.m_outfileStream.close(); //close file after we are done writing file
+		break;
+	}
+	default: //If PacketType type is not accounted for
+		std::cout << "Unrecognized PacketType: " << (std::int32_t)packetType << std::endl; //Display that PacketType was not found
 		break;
 	}
 	return true;
 }
 
-void Client::ClientThread()
+void Client::ClientThread(Client & client)
 {
-	Packet PacketType;
+	PacketType PacketType;
 	while (true)
 	{
-		if (!clientptr->GetPacketType(PacketType)) //Get packet type
-			break; //If there is an issue getting the packet type, exit this loop
-		if (!clientptr->ProcessPacket(PacketType)) //Process packet (packet type)
-			break; //If there is an issue processing the packet, exit this loop
+		if (client.m_terminateThreads == true)
+			break;
+		if (!client.GetPacketType(PacketType)) //Get PacketType type
+			break; //If there is an issue getting the PacketType type, exit this loop
+		if (!client.ProcessPacketType(PacketType)) //Process PacketType (PacketType type)
+			break; //If there is an issue processing the PacketType, exit this loop
 	}
-	std::cout << "Lost connection to the server." << std::endl;
-	if (clientptr->CloseConnection()) //Try to close socket connection..., If connection socket was closed properly
+	std::cout << "Lost connection to the server.\n";
+	client.m_terminateThreads = true;
+	if (client.CloseConnection()) //Try to close socket connection..., If connection socket was closed properly
 	{
-		std::cout << "Socket to the server was closed successfuly." << std::endl;
+		std::cout << "Socket to the server was closed successfully." << std::endl;
 	}
 	else //If connection socket was not closed properly for some reason from our function
 	{
@@ -41,47 +72,54 @@ void Client::ClientThread()
 	}
 }
 
-Client::Client(std::string IP, int PORT)
+bool Client::RequestFile(const std::string & fileName)
 {
-	//Winsock Startup
-	WSAData wsaData;
-	WORD DllVersion = MAKEWORD(2, 1);
-	if (WSAStartup(DllVersion, &wsaData) != 0)
+	if (m_file.m_transferInProgress)
 	{
-		MessageBoxA(NULL, "Winsock startup failed", "Error", MB_OK | MB_ICONERROR);
-		exit(0);
-	}
-
-	addr.sin_addr.s_addr = inet_addr(IP.c_str()); //Address (127.0.0.1) = localhost (this pc)
-	addr.sin_port = htons(PORT); //Port 
-	addr.sin_family = AF_INET; //IPv4 Socket
-	clientptr = this; //Update ptr to the client which will be used by our client thread
-}
-
-bool Client::Connect()
-{
-	Connection = socket(AF_INET, SOCK_STREAM, NULL); //Set Connection socket
-	if (connect(Connection, (SOCKADDR*)&addr, sizeofaddr) != 0) //If we are unable to connect...
-	{
-		MessageBoxA(NULL, "Failed to Connect", "Error", MB_OK | MB_ICONERROR);
+		std::cout << "ERROR: Function(Client::RequestFile) - File Transfer already in progress.\n";
 		return false;
 	}
-
-	std::cout << "Connected!" << std::endl;
-	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientThread, NULL, NULL, NULL); //Create the client thread that will receive any data that the server sends.
+	m_file.m_transferInProgress = true;
+	m_file.m_outfileStream.open(fileName, std::ios::binary); //open file to write file to
+	m_file.m_fileName = fileName; //save file name
+	m_file.m_bytesWritten = 0; //reset byteswritten to 0 since we are working with a new file
+	if (!m_file.m_outfileStream.is_open()) //if file failed to open...
+	{
+		std::cout << "ERROR: Function(Client::RequestFile) - Unable to open file: " << fileName << " for writing.\n";
+		return false;
+	}
+	std::cout << "Requesting file from server: " << fileName << std::endl;
+	Packet requestFilePacket;
+	requestFilePacket.Append(PacketType::FileTransferRequestFile);
+	requestFilePacket.Append(m_file.m_fileName.size());
+	requestFilePacket.Append(m_file.m_fileName.c_str(), m_file.m_fileName.size());
+	m_pm.Append(std::make_shared<Packet>(requestFilePacket));
 	return true;
 }
 
-bool Client::CloseConnection()
+void Client::PacketSenderThread(Client & client) //Thread for all outgoing packets
 {
-	if (closesocket(Connection) == SOCKET_ERROR)
+	while (true)
 	{
-		if (WSAGetLastError() == WSAENOTSOCK) //If socket error is that operation is not performed on a socket (This happens when the socket has already been closed)
-			return true; //return true since connection has already been closed
-
-		std::string ErrorMessage = "Failed to close the socket. Winsock Error: " + std::to_string(WSAGetLastError()) + ".";
-		MessageBoxA(NULL, ErrorMessage.c_str(), "Error", MB_OK | MB_ICONERROR);
-		return false;
+		if (client.m_terminateThreads == true)
+			break;
+		while (client.m_pm.HasPendingPackets())
+		{
+			std::shared_ptr<Packet> p = client.m_pm.Retrieve();
+			if (!client.sendall((const char*)(&p->m_buffer[0]), p->m_buffer.size()))
+			{
+				std::cout << "Failed to send packet to server..." << std::endl;
+				break;
+			}
+		}
+		Sleep(5);
 	}
-	return true;
+	std::cout << "Packet thread closing..." << std::endl;
+}
+
+void Client::Disconnect()
+{
+	m_pm.Clear();
+	closesocket(m_connection);
+	std::cout << "Disconnected from server." << std::endl;
 }

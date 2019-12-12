@@ -36,6 +36,18 @@
     <ClCompile Include="ClientStuff\Client.cpp">
       <Filter>ClientStuff</Filter>
     </ClCompile>
+    <ClCompile Include="ClientStuff\ClientIni.cpp">
+      <Filter>ClientStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientStuff\Packet.cpp">
+      <Filter>ClientStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientStuff\PacketManager.cpp">
+      <Filter>ClientStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientStuff\PacketStructs.cpp">
+      <Filter>ClientStuff</Filter>
+    </ClCompile>
     <ClCompile Include="ClientStuff\SendGetMethods.cpp">
       <Filter>ClientStuff</Filter>
     </ClCompile>
@@ -51,6 +63,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClientStuff\Client.h">
+      <Filter>ClientStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStuff\FileTransferData.h">
+      <Filter>ClientStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStuff\Packet.h">
+      <Filter>ClientStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStuff\PacketManager.h">
+      <Filter>ClientStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStuff\PacketStructs.h">
+      <Filter>ClientStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientStuff\PacketType.h">
       <Filter>ClientStuff</Filter>
     </ClInclude>
   </ItemGroup>

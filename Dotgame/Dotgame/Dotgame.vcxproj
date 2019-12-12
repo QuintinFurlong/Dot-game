@@ -20,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientStuff\Client.cpp" />
+    <ClCompile Include="ClientStuff\ClientIni.cpp" />
+    <ClCompile Include="ClientStuff\Packet.cpp" />
+    <ClCompile Include="ClientStuff\PacketManager.cpp" />
+    <ClCompile Include="ClientStuff\PacketStructs.cpp" />
     <ClCompile Include="ClientStuff\SendGetMethods.cpp" />
     <ClCompile Include="ClientStuff\Source.cpp" />
     <ClCompile Include="Dot.cpp" />
@@ -28,6 +32,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientStuff\Client.h" />
+    <ClInclude Include="ClientStuff\FileTransferData.h" />
+    <ClInclude Include="ClientStuff\Packet.h" />
+    <ClInclude Include="ClientStuff\PacketManager.h" />
+    <ClInclude Include="ClientStuff\PacketStructs.h" />
+    <ClInclude Include="ClientStuff\PacketType.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="Game.h" />
   </ItemGroup>

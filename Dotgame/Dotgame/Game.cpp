@@ -21,8 +21,9 @@ Game::Game() :
 		system("pause");
 	}
 	setupFontAndText(); // load font 
-	dot.setPos(sf::Vector2f(400, 400));
-	dot2.setPos(sf::Vector2f(600, 600));
+	srand (time(NULL));
+	dot.setPos(sf::Vector2f(rand() % 800 + 100, rand() % 800 + 100));
+	dot2.setPos(sf::Vector2f(rand() % 800 + 100, rand() % 800 + 100));
 	dot.setColour(sf::Color::Blue);
 	dot2.setColour(sf::Color::Red);
 	index = 0;
@@ -115,9 +116,9 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		playerPos = std::to_string(int(dot.getPos().x)) + " , " + std::to_string(int(dot.getPos().y));
 		if(!endGame)
-			playerPos += ", index: " + std::to_string(index) + ", " + std::to_string(timer);
+			playerPos += ", index: " + std::to_string(index) + ", " + std::to_string(int(timer));
 		else
-			playerPos += ", index: " + std::to_string(2) + std::to_string(timer);
+			playerPos += ", index: " + std::to_string(2) + ", " + std::to_string(int(timer));
 		myClient.SendString(playerPos);
 	}
 	
@@ -147,7 +148,7 @@ void Game::update(sf::Time t_deltaTime)
 			if (tempIndex == 2)
 			{
 				endGame = true;
-				m_welcomeMessage.setString("GAMEOVER \nTime lasted : " + std::to_string(int(timer)) + " seconds.");
+				cornerMes.setString("GAMEOVER \nTime lasted : " + std::to_string(int(timer)) + " seconds.");
 			}
 		}
 		myClient.isMessage = false;
@@ -157,16 +158,16 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		std::cout << index << std::endl;
 		if (index == 0)
-			m_welcomeMessage.setString("RUN");
+			cornerMes.setString("RUN");
 		else if (index == 1)
-			m_welcomeMessage.setString("CATCH");
+			cornerMes.setString("CATCH");
 		dot.update();
 		if (index == 1)
 		{
 			timer += t_deltaTime.asSeconds();
 			if (sqrt(pow(dot.getPos().x - dot2.getPos().x, 2) + pow(dot.getPos().y - dot2.getPos().y, 2)) < dot.RADIUS * 2)
 			{
-				m_welcomeMessage.setString("GAMEOVER \nTime lasted : " + std::to_string(int(timer)) + " seconds.");
+				cornerMes.setString("GAMEOVER \nTime lasted : " + std::to_string(int(timer)) + " seconds.");
 				endGame = true;
 			}
 		}
@@ -181,7 +182,7 @@ void Game::render()
 	m_window.clear();
 	dot.draw(m_window);
 	dot2.draw(m_window);
-	m_window.draw(m_welcomeMessage);
+	m_window.draw(cornerMes);
 	m_window.display();
 }
 
@@ -194,10 +195,10 @@ void Game::setupFontAndText()
 	{
 		std::cout << "problem loading arial black font" << std::endl;
 	}
-	m_welcomeMessage.setFont(m_ArialBlackfont);
-	m_welcomeMessage.setPosition(40.0f, 40.0f);
-	m_welcomeMessage.setCharacterSize(80U);
-	m_welcomeMessage.setFillColor(sf::Color::White);
+	cornerMes.setFont(m_ArialBlackfont);
+	cornerMes.setPosition(40.0f, 40.0f);
+	cornerMes.setCharacterSize(60U);
+	cornerMes.setFillColor(sf::Color::White);
 
 }
 
